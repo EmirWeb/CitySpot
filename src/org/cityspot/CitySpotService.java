@@ -3,7 +3,6 @@ package org.cityspot;
 import org.cityspot.model.GreenParking;
 import org.cityspot.model.LawnParking;
 import org.cityspot.model.Parking;
-import org.cityspot.utilities.Debug;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -23,12 +22,6 @@ public class CitySpotService extends Service {
 	private static final String MENU_LONG = "menuLong";
 	private static final String MENU_LAT = "menuLat";
 	private LiveCard mLiveCard;
-	
-	@Override
-	public void onCreate() {
-		Debug.setIsDebug(true);
-		super.onCreate();
-	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -80,8 +73,7 @@ public class CitySpotService extends Service {
 		final String priceString = String.format(Parking.PRICE, greenParking.mRateHalfHour);
 		remoteViews.setTextViewText(R.id.list_item_green_parking_distance, distanceString);
 		remoteViews.setTextViewText(R.id.list_item_green_parking_price, priceString);
-		
-		
+
 		publishCard(context, remoteViews, Float.parseFloat(greenParking.mLat), Float.parseFloat(greenParking.mLong), greenParking.mAddress);
 	}
 
@@ -90,7 +82,7 @@ public class CitySpotService extends Service {
 		remoteViews.setTextViewText(R.id.list_item_lawn_parking_address, lawnParking.mAddress);
 		final String distanceString = String.format(Parking.DISTANCE, lawnParking.mDistance);
 		remoteViews.setTextViewText(R.id.list_item_green_parking_distance, distanceString);
-		
+
 		publishCard(context, remoteViews, lawnParking.mLatitude, lawnParking.mLongitude, lawnParking.mAddress);
 	}
 
@@ -114,7 +106,7 @@ public class CitySpotService extends Service {
 		intent.putExtra(GreenParking.Keys.LNG, greenParking.mLong);
 		intent.putExtra(GreenParking.Keys.RATE_HALF_HOUR, greenParking.mRateHalfHour);
 		intent.putExtra(GreenParking.Keys.DISTANCE, greenParking.mDistance);
-		
+
 		activity.startService(intent);
 	}
 
@@ -127,18 +119,18 @@ public class CitySpotService extends Service {
 		intent.putExtra(LawnParking.Keys.DISTANCE, lawnParking.mDistance);
 		activity.startService(intent);
 	}
-	
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		unpublishCard(this);
-	
-	    super.onDestroy();
+
+		super.onDestroy();
 	}
-	
-	private void unpublishCard(Context context){
-	    if (mLiveCard != null) {
-	    	mLiveCard.unpublish();
-	    	mLiveCard = null;
-	    }
+
+	private void unpublishCard(Context context) {
+		if (mLiveCard != null) {
+			mLiveCard.unpublish();
+			mLiveCard = null;
+		}
 	}
 }

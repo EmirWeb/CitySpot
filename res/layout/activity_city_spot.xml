@@ -37,7 +37,7 @@
         android:id="@+id/activity_glass_results_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/activity_city_spot_background"
+        android:background="@android:color/black"
         android:visibility="gone" >
 
         <com.google.android.glass.widget.CardScrollView
@@ -59,7 +59,7 @@
         android:id="@+id/activity_glass_error_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/activity_city_spot_background"
+        android:background="@android:color/black"
         android:visibility="gone" >
 
         <TextView

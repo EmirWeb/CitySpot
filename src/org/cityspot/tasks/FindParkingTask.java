@@ -17,18 +17,21 @@ import org.cityspot.R;
 import org.cityspot.model.GreenParking;
 import org.cityspot.model.Parking;
 import org.cityspot.model.ParkingResponse;
+import org.cityspot.model.ParkingTaskResponse;
 import org.cityspot.utilities.Debug;
 
 import android.location.Location;
 import android.os.AsyncTask;
 
-public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
+import com.google.gson.JsonSyntaxException;
+
+public class FindParkingTask extends AsyncTask<Void, Void, ParkingTaskResponse> {
 	private final CitySpotActivity mActivity;
 	private final Location mLocation;
 	private final int mRadius;
 
 	public static final String UTF8 = "UTF8";
-	public static final String BASE_URL = "http://cityspot.org/makedata.php";
+	public static final String BASE_URL = "http://173.255.227.135/CitySpotServer/makedata.php";
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String RADIUS = "radius";
@@ -50,21 +53,25 @@ public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 
 	}
 
-	private ArrayList<Parking> convert(final ParkingResponse parkingResponse) {
-		if (parkingResponse == null) {
+	private ParkingTaskResponse convert(final ParkingResponse parkingResponse) {
+		if (parkingResponse == null || parkingResponse.mGreenParking == null) {
 			return null;
 		}
 
-		final ArrayList<Parking> parkingList = new ArrayList<Parking>(parkingResponse.size());
-		for (final GreenParking greenParking : parkingResponse) {
-			parkingList.add(greenParking);
+		final ParkingTaskResponse parkingTaskResponse = new ParkingTaskResponse();
+		parkingTaskResponse.mParking = new ArrayList<Parking>(parkingResponse.mGreenParking.size());
+		for (final GreenParking greenParking : parkingResponse.mGreenParking) {
+			parkingTaskResponse.mParking.add(greenParking);
 		}
-		return parkingList;
+		
+		parkingTaskResponse.mCity = parkingResponse.mCity;
+		parkingTaskResponse.mUrl = parkingResponse.mUrl;
+		return parkingTaskResponse;
 
 	}
 
 	@Override
-	protected ArrayList<Parking> doInBackground(final Void... params) {
+	protected ParkingTaskResponse doInBackground(final Void... params) {
 		InputStream inputStream = null;
 		InputStreamReader inputStreamReader = null;
 		try {
@@ -82,6 +89,8 @@ public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 			Debug.log(unsupportedEncodingException.getMessage());
 		} catch (final ClientProtocolException clientProtocolException) {
 			Debug.log(clientProtocolException.getMessage());
+		} catch (final JsonSyntaxException jsonSyntaxException){
+			Debug.log(jsonSyntaxException.getMessage());
 		} catch (final IOException ioException) {
 			Debug.log(ioException.getMessage());
 		} finally {
@@ -102,14 +111,14 @@ public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 	}
 
 	@Override
-	protected void onPostExecute(final ArrayList<Parking> parkingList) {
+	protected void onPostExecute(final ParkingTaskResponse parkingTaskResponse) {
 		if (mActivity.mIsDestroyed) {
 			return;
 		}
-		if (parkingList == null || parkingList.isEmpty()) {
+		if (parkingTaskResponse == null || parkingTaskResponse.mParking == null || parkingTaskResponse.mParking.isEmpty()) {
 			mActivity.setErrorUI(mActivity.getResources().getString(R.string.activity_glass_error_message));
 		} else {
-			mActivity.updateUI(parkingList);
+			mActivity.updateUI(parkingTaskResponse);
 		}
 	}
 }

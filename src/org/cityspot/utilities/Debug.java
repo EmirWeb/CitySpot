@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by emir on 29/03/14.
  */
 public class Debug {
-    private static final String TAG = "GoogleGlass";
+    private static final String TAG = "CitySpot";
     private static final String DEBUG_LINE = "%s - [%s] %s";
     private static final String BACKGROUND_THREAD = "BG";
     private static final String UI_THREAD = "UI";

@@ -1,14 +1,10 @@
 package org.cityspot;
 
-import java.util.ArrayList;
-
-import org.cityspot.model.GreenParking;
-import org.cityspot.model.LawnParking;
 import org.cityspot.utilities.Debug;
 
-import com.google.gson.Gson;
-
 import android.app.Application;
+
+import com.google.gson.Gson;
 
 public class CitySpotApplication extends Application {
 

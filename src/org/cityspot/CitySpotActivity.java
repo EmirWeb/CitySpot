@@ -6,6 +6,7 @@ import org.cityspot.adapters.ParkingAdapter;
 import org.cityspot.model.GreenParking;
 import org.cityspot.model.LawnParking;
 import org.cityspot.model.Parking;
+import org.cityspot.model.ParkingTaskResponse;
 import org.cityspot.tasks.FindParkingTask;
 import org.cityspot.utilities.Debug;
 import org.cityspot.utilities.LocationHelper;
@@ -13,6 +14,9 @@ import org.cityspot.utilities.LocationHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -28,12 +32,20 @@ import android.widget.TextView;
 
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso.LoadedFrom;
+import com.squareup.picasso.Target;
 
 public class CitySpotActivity extends Activity implements OnItemClickListener {
 	private static final int RADIUS = 1000;
-	private static final String MARS_LOCATION = "Mars Location";
+	private static final String FAKE_LOCATION = "Mars Location";
 	private static final float MARS_LATITUDE = 43.659968f;
 	private static final float MARS_LONGITUDE = -79.388934f;
+	private static final float SAN_FRAN_LATITUDE = 37.7833f;
+	private static final float SAN_FRAN_LONGITUDE = -122.4167f;
+	private static final float OTTAWA_LATITUDE = 45.4214f;
+	private static final float OTTAWA_LONGITUDE = -75.6919f;
+
 	private static final long GPS_TIMEOUT = 1000 * 10; // 10 seconds
 
 	public boolean mIsDestroyed;
@@ -41,7 +53,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 
 	private boolean mHaveWakeLock;
 	private boolean mIsError;
-	private ArrayList<Parking> mParkingList;
+	private ParkingTaskResponse mParkingTaskResponse;
 	private Location mLocation;
 	private Handler mHandler;
 	private TextView mProgressTextView;
@@ -62,11 +74,8 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 			releaseLock();
 			mLocationHelper.stopLocationSearch();
 			if (mLocation == null) {
-				final Location location = new Location(MARS_LOCATION);
-				location.setLatitude(MARS_LATITUDE);
-				location.setLongitude(MARS_LONGITUDE);
-				setLocation(location);
-//				setErrorUI(getResources().getString(R.string.activity_glass_error_nolocation));
+				// setLocation(getFakeLocation());
+				setErrorUI(getResources().getString(R.string.activity_glass_error_nolocation));
 			}
 		}
 	};
@@ -130,7 +139,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 		updateUI(null);
 		mHandler.removeCallbacks(mTimeout);
 		mFindingParking = false;
-		mParkingList = null;
+		mParkingTaskResponse = null;
 		mLocation = null;
 	}
 
@@ -152,7 +161,8 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 		stop();
 	}
 
-	public void updateUI(final ArrayList<Parking> parkingList) {
+	public void updateUI(final ParkingTaskResponse parkingTaskResponse) {
+
 		if (mIsError) {
 			mErrorContainer.setVisibility(View.VISIBLE);
 			mProgressContainer.setVisibility(View.GONE);
@@ -160,11 +170,43 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 			return;
 		}
 		mErrorContainer.setVisibility(View.GONE);
-		if (mParkingList == null) {
-			mParkingList = parkingList;
+		if (mParkingTaskResponse == null) {
+			mParkingTaskResponse = parkingTaskResponse;
 		}
-		final boolean foundParking = mParkingList != null;
+		final boolean foundParking = mParkingTaskResponse != null && mParkingTaskResponse.mParking != null;
 		if (foundParking) {
+			final String city = mParkingTaskResponse.mCity;
+			final String url = mParkingTaskResponse.mUrl;
+			if (ParkingTaskResponse.Cities.TORONTO.equals(city)) {
+				mErrorContainer.setBackgroundResource(R.drawable.activity_city_spot_background_toronto);
+				mResultsContainer.setBackgroundResource(R.drawable.activity_city_spot_background_toronto);
+			} else if (ParkingTaskResponse.Cities.OTTAWA.equals(city)) {
+				mErrorContainer.setBackgroundResource(R.drawable.activity_city_spot_background_ottawa);
+				mResultsContainer.setBackgroundResource(R.drawable.activity_city_spot_background_ottawa);
+			} else if (ParkingTaskResponse.Cities.SAN_FRANCISCO.equals(city)) {
+				mErrorContainer.setBackgroundResource(R.drawable.activity_city_spot_background_sanfran);
+				mResultsContainer.setBackgroundResource(R.drawable.activity_city_spot_background_sanfran);
+			} else if (url != null) {
+				Picasso.with(getApplicationContext()).load(url).into(new Target() {
+
+					@Override
+					public void onPrepareLoad(Drawable arg0) {
+					}
+
+					@Override
+					public void onBitmapLoaded(Bitmap bitmap, LoadedFrom loadedFrom) {
+						Debug.log("");
+						final Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+						mErrorContainer.setBackground(drawable);
+						mResultsContainer.setBackground(drawable);
+					}
+
+					@Override
+					public void onBitmapFailed(Drawable arg0) {
+					}
+				});
+			}
+			final ArrayList<Parking> parkingList = mParkingTaskResponse.mParking;
 			mFindingParking = false;
 			mProgressContainer.setVisibility(View.GONE);
 			mResultsContainer.setVisibility(View.VISIBLE);
@@ -175,8 +217,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 			if (parkingList != null) {
 				final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 				audio.playSoundEffect(Sounds.SUCCESS);
-			}
-			else{
+			} else {
 				Debug.log("No Result");
 				setErrorUI(getResources().getString(R.string.activity_glass_error_message));
 			}
@@ -195,13 +236,21 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
 
 	public void setLocation(final Location location) {
 		mLocationHelper.stopLocationSearch();
+		// mLocation = getFakeLocation();
 		mLocation = location;
 		findParking();
 	}
 
+	private Location getFakeLocation() {
+		final Location location = new Location(FAKE_LOCATION);
+		location.setLatitude(SAN_FRAN_LATITUDE);
+		location.setLongitude(SAN_FRAN_LONGITUDE);
+		return location;
+	}
+
 	public void findParking() {
 		updateUI(null);
-		final boolean foundParking = mParkingList != null;
+		final boolean foundParking = mParkingTaskResponse != null;
 		if (foundParking || mFindingParking || mLocation == null) {
 			return;
 		}
