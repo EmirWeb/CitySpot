@@ -1,4 +1,9 @@
-package com.cityspot;
+package org.cityspot;
+
+import org.cityspot.model.GreenParking;
+import org.cityspot.model.LawnParking;
+import org.cityspot.model.Parking;
+import org.cityspot.utilities.Debug;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -8,10 +13,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
-import com.cityspot.model.GreenParking;
-import com.cityspot.model.LawnParking;
-import com.cityspot.model.Parking;
-import com.cityspot.utilities.Debug;
 import com.google.android.glass.timeline.LiveCard;
 
 public class CitySpotService extends Service {

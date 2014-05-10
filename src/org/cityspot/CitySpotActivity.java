@@ -1,6 +1,14 @@
-package com.cityspot;
+package org.cityspot;
 
 import java.util.ArrayList;
+
+import org.cityspot.adapters.ParkingAdapter;
+import org.cityspot.model.GreenParking;
+import org.cityspot.model.LawnParking;
+import org.cityspot.model.Parking;
+import org.cityspot.tasks.FindParkingTask;
+import org.cityspot.utilities.Debug;
+import org.cityspot.utilities.LocationHelper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,13 +26,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-import com.cityspot.adapters.ParkingAdapter;
-import com.cityspot.model.GreenParking;
-import com.cityspot.model.LawnParking;
-import com.cityspot.model.Parking;
-import com.cityspot.tasks.FindParkingTask;
-import com.cityspot.utilities.Debug;
-import com.cityspot.utilities.LocationHelper;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
 

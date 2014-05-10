@@ -1,4 +1,6 @@
-package com.cityspot;
+package org.cityspot;
+
+import org.cityspot.utilities.Debug;
 
 import android.app.Activity;
 import android.app.Service;
@@ -8,8 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.cityspot.utilities.Debug;
 
 public class MenuActivity extends Activity {
 	private static final String MENU_LONG = "menuLong";

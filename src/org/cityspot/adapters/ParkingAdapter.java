@@ -1,7 +1,12 @@
-package com.cityspot.adapters;
+package org.cityspot.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.cityspot.R;
+import org.cityspot.model.GreenParking;
+import org.cityspot.model.LawnParking;
+import org.cityspot.model.Parking;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cityspot.R;
-import com.cityspot.model.GreenParking;
-import com.cityspot.model.LawnParking;
-import com.cityspot.model.Parking;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.squareup.picasso.Picasso;
 

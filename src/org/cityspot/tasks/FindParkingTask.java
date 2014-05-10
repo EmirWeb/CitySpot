@@ -1,4 +1,4 @@
-package com.cityspot.tasks;
+package org.cityspot.tasks;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,17 +11,16 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.cityspot.CitySpotActivity;
+import org.cityspot.CitySpotApplication;
+import org.cityspot.R;
+import org.cityspot.model.GreenParking;
+import org.cityspot.model.Parking;
+import org.cityspot.model.ParkingResponse;
+import org.cityspot.utilities.Debug;
 
 import android.location.Location;
 import android.os.AsyncTask;
-
-import com.cityspot.CitySpotActivity;
-import com.cityspot.CitySpotApplication;
-import com.cityspot.R;
-import com.cityspot.model.GreenParking;
-import com.cityspot.model.Parking;
-import com.cityspot.model.ParkingResponse;
-import com.cityspot.utilities.Debug;
 
 public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 	private final CitySpotActivity mActivity;

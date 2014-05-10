@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cityspot" >
+    package="org.cityspot" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -34,7 +34,7 @@
 
         <service android:name=".CitySpotService" />
 
-        <activity android:name=".GlassMenuActivity" />
+        <activity android:name=".MenuActivity" />
     </application>
 
 </manifest>

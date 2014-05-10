@@ -1,4 +1,4 @@
-package com.cityspot.model;
+package org.cityspot.model;
 
 import android.location.Location;
 

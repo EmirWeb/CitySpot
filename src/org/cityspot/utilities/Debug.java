@@ -1,4 +1,4 @@
-package com.cityspot.utilities;
+package org.cityspot.utilities;
 
 import android.os.Looper;
 import android.util.Log;
