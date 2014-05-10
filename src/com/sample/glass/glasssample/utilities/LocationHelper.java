@@ -22,8 +22,8 @@ public class LocationHelper implements LocationListener {
 
 	public void startLocationSearch() {
 		final Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		criteria.setAltitudeRequired(true);
+		//criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		//criteria.setAltitudeRequired(true);
 		final List<String> providers = mLocationManager.getProviders(criteria, true);
 
 		float smallestAccuracy = Float.MAX_VALUE;
