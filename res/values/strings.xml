@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Glass R&amp;D</string>
+    <string name="title_activity_glass">Glass Activity</string>
+    <string name="activity_glass_progress_getting_parking">Retreiving parking locations &#8230;</string>
+    <string name="activity_glass_progress_finding_location">Getting location &#8230;</string>
+    <string name="activity_glass_progress_finding_parking">Finding parking &#8230;</string>
+    <string name="list_item_lawn_free">Free</string>
+    <string name="stop">Stop</string>
+    <string name="go">Go</string>
+    <string name="activity_glass_results_action_label">Tap for directions</string>
+    <string name="activity_glass_error_message">Unable to find parking</string>
+    <string name="activity_glass_error_label">Tap to retry</string>
+	<string name="activity_glass_error_nolocation">Unable to get location</string>
+</resources>

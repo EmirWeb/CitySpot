@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Glass values -->
+    <dimen name="glass_card_margin">40px</dimen>
+    <dimen name="glass_card_footer_margin">33px</dimen>
+    <dimen name="glass_card_two_column_margin">30px</dimen>
+    <dimen name="glass_card_body_height">240px</dimen>
+    <dimen name="glass_card_left_column_width">240px</dimen>
+    
+    <dimen name="activity_glass_results_action_label_margin_bottom">5px</dimen>
+    
+    <dimen name="font_70px">70px</dimen>
+    <dimen name="font_50px">50px</dimen>
+    <dimen name="font_40px">40px</dimen>
+    <dimen name="font_34px">34px</dimen>
+    <dimen name="font_30px">30px</dimen>
+    <dimen name="font_20px">20px</dimen>
+
+</resources>
