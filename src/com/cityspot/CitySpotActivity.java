@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample;
+package com.cityspot;
 
 import java.util.ArrayList;
 
@@ -18,17 +18,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
+import com.cityspot.adapters.ParkingAdapter;
+import com.cityspot.model.GreenParking;
+import com.cityspot.model.LawnParking;
+import com.cityspot.model.Parking;
+import com.cityspot.tasks.FindParkingTask;
+import com.cityspot.utilities.Debug;
+import com.cityspot.utilities.LocationHelper;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.widget.CardScrollView;
-import com.sample.glass.glasssample.adapters.ParkingAdapter;
-import com.sample.glass.glasssample.model.GreenParking;
-import com.sample.glass.glasssample.model.LawnParking;
-import com.sample.glass.glasssample.model.Parking;
-import com.sample.glass.glasssample.tasks.FindParkingTask;
-import com.sample.glass.glasssample.utilities.Debug;
-import com.sample.glass.glasssample.utilities.LocationHelper;
 
-public class GlassActivity extends Activity implements OnItemClickListener {
+public class CitySpotActivity extends Activity implements OnItemClickListener {
 	private static final int RADIUS = 1000;
 	private static final String MARS_LOCATION = "Mars Location";
 	private static final float MARS_LATITUDE = 43.659968f;
@@ -61,11 +61,11 @@ public class GlassActivity extends Activity implements OnItemClickListener {
 			releaseLock();
 			mLocationHelper.stopLocationSearch();
 			if (mLocation == null) {
-				//final Location location = new Location(MARS_LOCATION);
-				//location.setLatitude(MARS_LATITUDE);
-				//location.setLongitude(MARS_LONGITUDE);
-				//setLocation(location);
-				setErrorUI(getResources().getString(R.string.activity_glass_error_nolocation));
+				final Location location = new Location(MARS_LOCATION);
+				location.setLatitude(MARS_LATITUDE);
+				location.setLongitude(MARS_LONGITUDE);
+				setLocation(location);
+//				setErrorUI(getResources().getString(R.string.activity_glass_error_nolocation));
 			}
 		}
 	};
@@ -91,7 +91,7 @@ public class GlassActivity extends Activity implements OnItemClickListener {
 		mHandler = new Handler();
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_glass);
+		setContentView(R.layout.activity_city_spot);
 		mProgressTextView = (TextView) findViewById(R.id.activity_glass_progress_text);
 		mProgressContainer = findViewById(R.id.activity_glass_progress_container);
 		mResultsContainer = findViewById(R.id.activity_glass_results_container);
@@ -216,12 +216,12 @@ public class GlassActivity extends Activity implements OnItemClickListener {
 		final Parking parking = (Parking) parent.getItemAtPosition(position);
 		if (parking instanceof GreenParking) {
 			final GreenParking greenParking = (GreenParking) parking;
-			GlassService.launchCard(this, greenParking);
+			CitySpotService.launchCard(this, greenParking);
 			navigateTo(greenParking.getLocation(), greenParking.mAddress);
 			finish();
 		} else {
 			final LawnParking lawnParking = (LawnParking) parking;
-			GlassService.launchCard(this, lawnParking);
+			CitySpotService.launchCard(this, lawnParking);
 			navigateTo(lawnParking.getLocation(), lawnParking.mAddress);
 			finish();
 		}

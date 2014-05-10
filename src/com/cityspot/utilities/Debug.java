@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample.utilities;
+package com.cityspot.utilities;
 
 import android.os.Looper;
 import android.util.Log;

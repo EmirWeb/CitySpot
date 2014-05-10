@@ -1,8 +1,4 @@
-package com.sample.glass.glasssample;
-
-import java.net.URLEncoder;
-
-import com.sample.glass.glasssample.utilities.Debug;
+package com.cityspot;
 
 import android.app.Activity;
 import android.app.Service;
@@ -13,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class GlassMenuActivity extends Activity {
+import com.cityspot.utilities.Debug;
+
+public class MenuActivity extends Activity {
 	private static final String MENU_LONG = "menuLong";
 	private static final String MENU_LAT = "menuLat";
 	private static final String ADDRESS = "address";
@@ -55,7 +53,7 @@ public class GlassMenuActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.stop:
-			stopService(new Intent(this, GlassService.class));
+			stopService(new Intent(this, CitySpotService.class));
 			return true;
 		case R.id.go:
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -72,7 +70,7 @@ public class GlassMenuActivity extends Activity {
 	}
 
 	public static Intent SetUpMenu(final Service service, final float lat, final float lon, String address) {
-		final Intent intent = new Intent(service, GlassMenuActivity.class);
+		final Intent intent = new Intent(service, MenuActivity.class);
 		intent.putExtra(ADDRESS, address);
 		intent.putExtra(MENU_LONG, lon);
 		intent.putExtra(MENU_LAT, lat);

@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample.model;
+package com.cityspot.model;
 
 import android.location.Location;
 

@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample;
+package com.cityspot;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -8,13 +8,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
+import com.cityspot.model.GreenParking;
+import com.cityspot.model.LawnParking;
+import com.cityspot.model.Parking;
+import com.cityspot.utilities.Debug;
 import com.google.android.glass.timeline.LiveCard;
-import com.sample.glass.glasssample.model.GreenParking;
-import com.sample.glass.glasssample.model.LawnParking;
-import com.sample.glass.glasssample.model.Parking;
-import com.sample.glass.glasssample.utilities.Debug;
 
-public class GlassService extends Service {
+public class CitySpotService extends Service {
 	private static final String TYPE = "type";
 	private static final String GREEN_PARKING = "greenParking";
 	private static final String LAWN_PARKING = "lawnParking";
@@ -99,14 +99,14 @@ public class GlassService extends Service {
 		}
 		mLiveCard = new LiveCard(this, LIVE_CARD_ID);
 		mLiveCard.setViews(remoteViews);
-		Intent intent = GlassMenuActivity.SetUpMenu(this, latitude, longitude, address);
+		Intent intent = MenuActivity.SetUpMenu(this, latitude, longitude, address);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		mLiveCard.setAction(PendingIntent.getActivity(context, 0, intent, 0));
 		mLiveCard.publish(LiveCard.PublishMode.SILENT);
 	}
 
 	public static void launchCard(final Activity activity, final GreenParking greenParking) {
-		final Intent intent = new Intent(activity, GlassService.class);
+		final Intent intent = new Intent(activity, CitySpotService.class);
 		intent.putExtra(TYPE, GREEN_PARKING);
 		intent.putExtra(GreenParking.Keys.ADDRESS, greenParking.mAddress);
 		intent.putExtra(GreenParking.Keys.LAT, greenParking.mLat);
@@ -118,7 +118,7 @@ public class GlassService extends Service {
 	}
 
 	public static void launchCard(final Activity activity, final LawnParking lawnParking) {
-		final Intent intent = new Intent(activity, GlassService.class);
+		final Intent intent = new Intent(activity, CitySpotService.class);
 		intent.putExtra(TYPE, LAWN_PARKING);
 		intent.putExtra(LawnParking.Keys.ADDRESS, lawnParking.mAddress);
 		intent.putExtra(LawnParking.Keys.LATITUDE, lawnParking.mLatitude);

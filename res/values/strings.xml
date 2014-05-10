@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Glass R&amp;D</string>
-    <string name="title_activity_glass">Glass Activity</string>
+    <string name="app_name">City Spot</string>
+    <string name="title_activity_glass">CitySpot</string>
     <string name="activity_glass_progress_getting_parking">Retreiving parking locations &#8230;</string>
     <string name="activity_glass_progress_finding_location">Getting location &#8230;</string>
     <string name="activity_glass_progress_finding_parking">Finding parking &#8230;</string>

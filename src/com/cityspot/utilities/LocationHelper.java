@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample.utilities;
+package com.cityspot.utilities;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.sample.glass.glasssample.GlassActivity;
+import com.cityspot.CitySpotActivity;
 
 public class LocationHelper implements LocationListener {
 	private final LocationManager mLocationManager;
-	private final GlassActivity mGlassActivity;
+	private final CitySpotActivity mGlassActivity;
 
-	public LocationHelper(final GlassActivity glassActivity) {
+	public LocationHelper(final CitySpotActivity glassActivity) {
 		mGlassActivity = glassActivity;
 		mLocationManager = (LocationManager) glassActivity.getSystemService(Context.LOCATION_SERVICE);
 	}

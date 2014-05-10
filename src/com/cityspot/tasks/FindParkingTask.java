@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample.tasks;
+package com.cityspot.tasks;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,16 +15,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.location.Location;
 import android.os.AsyncTask;
 
-import com.sample.glass.glasssample.GlassActivity;
-import com.sample.glass.glasssample.ParkingApplication;
-import com.sample.glass.glasssample.R;
-import com.sample.glass.glasssample.model.GreenParking;
-import com.sample.glass.glasssample.model.Parking;
-import com.sample.glass.glasssample.model.ParkingResponse;
-import com.sample.glass.glasssample.utilities.Debug;
+import com.cityspot.CitySpotActivity;
+import com.cityspot.CitySpotApplication;
+import com.cityspot.R;
+import com.cityspot.model.GreenParking;
+import com.cityspot.model.Parking;
+import com.cityspot.model.ParkingResponse;
+import com.cityspot.utilities.Debug;
 
 public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
-	private final GlassActivity mActivity;
+	private final CitySpotActivity mActivity;
 	private final Location mLocation;
 	private final int mRadius;
 
@@ -35,7 +35,7 @@ public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 	public static final String RADIUS = "radius";
 	public static final String PARKING_URL = BASE_URL + "?" + LATITUDE + "=%f&" + LONGITUDE + "=%f&" + RADIUS + "=%d";
 
-	public FindParkingTask(final GlassActivity activity, final int radius, final Location location) {
+	public FindParkingTask(final CitySpotActivity activity, final int radius, final Location location) {
 		mActivity = activity;
 		mLocation = location;
 		mRadius = radius;
@@ -77,7 +77,7 @@ public class FindParkingTask extends AsyncTask<Void, Void, ArrayList<Parking>> {
 
 			inputStream = httpResponse.getEntity().getContent();
 			inputStreamReader = new InputStreamReader(inputStream, UTF8);
-			final ParkingResponse parkingResponse = ParkingApplication.GSON.fromJson(inputStreamReader, ParkingResponse.class);
+			final ParkingResponse parkingResponse = CitySpotApplication.GSON.fromJson(inputStreamReader, ParkingResponse.class);
 			return convert(parkingResponse);
 		} catch (final UnsupportedEncodingException unsupportedEncodingException) {
 			Debug.log(unsupportedEncodingException.getMessage());

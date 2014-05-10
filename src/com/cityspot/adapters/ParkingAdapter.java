@@ -1,4 +1,4 @@
-package com.sample.glass.glasssample.adapters;
+package com.cityspot.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cityspot.R;
+import com.cityspot.model.GreenParking;
+import com.cityspot.model.LawnParking;
+import com.cityspot.model.Parking;
 import com.google.android.glass.widget.CardScrollAdapter;
-import com.sample.glass.glasssample.R;
-import com.sample.glass.glasssample.model.GreenParking;
-import com.sample.glass.glasssample.model.LawnParking;
-import com.sample.glass.glasssample.model.Parking;
 import com.squareup.picasso.Picasso;
 
 /**
