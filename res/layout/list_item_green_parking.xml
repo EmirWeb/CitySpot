@@ -9,7 +9,8 @@
         android:layout_width="@dimen/glass_card_left_column_width"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:background="#222222" />
 
     <ImageView
         android:id="@+id/list_item_green_parking_icon"
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_parking" />
+        android:src="@drawable/ic_launcher" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,20 +33,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textColor="@color/green"
-            android:textSize="@dimen/font_34px" />
+            android:textSize="@dimen/font_30px" />
 
         <TextView
             android:id="@+id/list_item_green_parking_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_50px" />
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/font_30px"/>
 
         <TextView
             android:id="@+id/list_item_green_parking_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_20px" />
+            android:textSize="@dimen/font_30px" />
     </LinearLayout>
 
 </RelativeLayout>
