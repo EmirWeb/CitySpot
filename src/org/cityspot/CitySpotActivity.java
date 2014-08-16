@@ -27,6 +27,7 @@ import org.cityspot.model.ParkingTaskResponse;
 import org.cityspot.tasks.FindParkingTask;
 import org.cityspot.utilities.Debug;
 import org.cityspot.utilities.LocationHelper;
+import org.cityspot.utilities.SliderView;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
     private Handler mHandler;
     private TextView mProgressTextView;
     private View mProgressContainer;
+    private SliderView mProgressBar;
     private View mResultsContainer;
     private CardScrollView mCardScrollView;
     private LocationHelper mLocationHelper;
@@ -98,6 +100,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         setContentView(R.layout.activity_city_spot);
         mProgressTextView = (TextView) findViewById(R.id.activity_glass_progress_text);
         mProgressContainer = findViewById(R.id.activity_glass_progress_container);
+        mProgressBar = (SliderView)findViewById(R.id.activity_glass_progress_bar);
         mResultsContainer = findViewById(R.id.activity_glass_results_container);
         mErrorContainer = findViewById(R.id.activity_glass_error_container);
         mErrorMessage = (TextView) findViewById(R.id.activity_glass_error_message);
@@ -160,6 +163,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         if (mIsError) {
             mErrorContainer.setVisibility(View.VISIBLE);
             mProgressContainer.setVisibility(View.GONE);
+            mProgressBar.stopIndeterminate();
             mResultsContainer.setVisibility(View.GONE);
             return;
         }
@@ -172,6 +176,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             final ArrayList<Parking> parkingList = mParkingTaskResponse.mParking;
             mFindingParking = false;
             mProgressContainer.setVisibility(View.GONE);
+            mProgressBar.stopIndeterminate();
             mResultsContainer.setVisibility(View.VISIBLE);
             final ParkingAdapter parkingAdapter = new ParkingAdapter(getApplicationContext());
             parkingAdapter.setParkingList(parkingList);
@@ -188,6 +193,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         }
 
         mProgressContainer.setVisibility(View.VISIBLE);
+        mProgressBar.startIndeterminate();
         mResultsContainer.setVisibility(View.GONE);
         final boolean hasLocation = mLocation != null;
         if (!hasLocation) {

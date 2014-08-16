@@ -24,13 +24,15 @@
             android:layout_marginBottom="25px"
             android:textSize="@dimen/font_30px" />
 
-        <ProgressBar
+        <org.cityspot.utilities.SliderView
             android:id="@+id/activity_glass_progress_bar"
             style="@style/ProgressBarAppTheme"
             android:layout_width="match_parent"
-            android:layout_height="13px"
+            android:indeterminate="true"
             android:layout_gravity="bottom"
-            android:indeterminate="true" />
+            android:layout_height="@dimen/slider_bar_height"
+            />
+
     </FrameLayout>
 
     <FrameLayout

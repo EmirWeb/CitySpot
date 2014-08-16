@@ -16,5 +16,5 @@
     <dimen name="font_34px">34px</dimen>
     <dimen name="font_30px">30px</dimen>
     <dimen name="font_20px">20px</dimen>
-
+    <dimen name="slider_bar_height">12.0px</dimen>
 </resources>
