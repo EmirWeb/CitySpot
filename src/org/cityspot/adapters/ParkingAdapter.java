@@ -134,18 +134,21 @@ public class ParkingAdapter extends CardScrollAdapter {
 
                 String distance;
                 // convert to mile in US
-                if(mUseMetrics){
-                    distance = String.format(Parking.METRICS, greenParking.mDistance*0.621371);
-                }else {
+                if (mUseMetrics) {
+                    distance = String.format(Parking.METRICS, greenParking.mDistance * 0.621371);
+                } else {
                     distance = String.format(Parking.DISTANCE, greenParking.mDistance);
                 }
 
                 distanceTextView.setText(distance);
 
                 final TextView priceTextView = (TextView) view.getTag(R.id.list_item_green_parking_price);
-                final String price = String.format(Parking.PRICE, greenParking.mRateHalfHour);
-                priceTextView.setText(price);
-
+                if (greenParking.mRateHalfHour == null) {
+                    priceTextView.setVisibility(View.GONE);
+                } else{
+                    final String price = String.format(Parking.PRICE, greenParking.mRateHalfHour);
+                    priceTextView.setText(price);
+                }
                 final ImageView imageView = (ImageView) view.getTag(R.id.list_item_green_parking_background);
                 final String address = greenParking.mLat+","+greenParking.mLong;
                 final String url = String.format(URL, address);
