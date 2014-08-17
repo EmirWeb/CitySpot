@@ -173,13 +173,18 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         }
         final boolean foundParking = mParkingTaskResponse != null && mParkingTaskResponse.mParking != null;
         if (foundParking) {
+            final String city = mParkingTaskResponse.mCity;
+            boolean useMetrics = false;
+            if (ParkingTaskResponse.Cities.SAN_FRANCISCO.equals(city)) {
+                useMetrics = true;
+            }
             final ArrayList<Parking> parkingList = mParkingTaskResponse.mParking;
             mFindingParking = false;
             mProgressContainer.setVisibility(View.GONE);
             mProgressBar.stopIndeterminate();
             mResultsContainer.setVisibility(View.VISIBLE);
             final ParkingAdapter parkingAdapter = new ParkingAdapter(getApplicationContext());
-            parkingAdapter.setParkingList(parkingList);
+            parkingAdapter.setParkingList(parkingList, useMetrics);
             mCardScrollView.setAdapter(parkingAdapter);
             mCardScrollView.activate();
             if (parkingList != null) {
