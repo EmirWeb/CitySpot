@@ -96,17 +96,13 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         mHandler = new Handler();
         super.onCreate(savedInstanceState);
+        setContentView(new TuggableView(this, R.layout.loading_screen));
 
-        setContentView(R.layout.activity_city_spot);
         mProgressTextView = (TextView) findViewById(R.id.activity_glass_progress_text);
         mProgressContainer = findViewById(R.id.activity_glass_progress_container);
         mProgressBar = (SliderView)findViewById(R.id.activity_glass_progress_bar);
-        mResultsContainer = findViewById(R.id.activity_glass_results_container);
         mErrorContainer = findViewById(R.id.activity_glass_error_container);
         mErrorMessage = (TextView) findViewById(R.id.activity_glass_error_message);
-
-        mCardScrollView = (CardScrollView) findViewById(R.id.activity_glass_results);
-        mCardScrollView.setOnItemClickListener(this);
 
         mLocationHelper = new LocationHelper(this);
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -166,12 +162,16 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             mResultsContainer.setVisibility(View.GONE);
             return;
         }
-        mErrorContainer.setVisibility(View.GONE);
         if (mParkingTaskResponse == null) {
             mParkingTaskResponse = parkingTaskResponse;
         }
         final boolean foundParking = mParkingTaskResponse != null && mParkingTaskResponse.mParking != null;
         if (foundParking) {
+            mErrorContainer.setVisibility(View.GONE);
+            setContentView(R.layout.activity_city_spot);
+            mResultsContainer = findViewById(R.id.activity_glass_results_container);
+            mCardScrollView = (CardScrollView) findViewById(R.id.activity_glass_results);
+            mCardScrollView.setOnItemClickListener(this);
             final String city = mParkingTaskResponse.mCity;
             boolean useMetrics = false;
             if (ParkingTaskResponse.Cities.SAN_FRANCISCO.equals(city)) {
@@ -179,8 +179,6 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             }
             final ArrayList<Parking> parkingList = mParkingTaskResponse.mParking;
             mFindingParking = false;
-            mProgressContainer.setVisibility(View.GONE);
-            mProgressBar.stopIndeterminate();
             mResultsContainer.setVisibility(View.VISIBLE);
             final ParkingAdapter parkingAdapter = new ParkingAdapter(getApplicationContext());
             parkingAdapter.setParkingList(parkingList, useMetrics);
@@ -194,7 +192,19 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
                 setErrorUI(getResources().getString(R.string.activity_glass_error_message));
             }
             return;
+        }else {
+            mProgressContainer.setVisibility(View.VISIBLE);
+            mProgressBar.startIndeterminate();
         }
+        final boolean hasLocation = mLocation != null;
+        if(mProgressTextView != null) {
+            if (!hasLocation) {
+                mProgressTextView.setText(R.string.activity_glass_progress_finding_location);
+            } else {
+                mProgressTextView.setText(R.string.activity_glass_progress_finding_parking);
+            }
+        }
+    }
 
         mProgressContainer.setVisibility(View.VISIBLE);
         mProgressBar.startIndeterminate();

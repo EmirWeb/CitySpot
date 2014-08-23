@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/activity_glass_progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_bg" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/splash_logo" />
+
+        <TextView
+            android:id="@+id/activity_glass_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="25px"
+            android:textSize="@dimen/font_30px" />
+
+        <org.cityspot.utilities.SliderView
+            android:id="@+id/activity_glass_progress_bar"
+            style="@style/ProgressBarAppTheme"
+            android:layout_width="match_parent"
+            android:indeterminate="true"
+            android:layout_gravity="bottom"
+            android:layout_height="@dimen/slider_bar_height"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/activity_glass_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/activity_glass_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/activity_glass_error_message"
+            android:textSize="@dimen/font_40px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="5px"
+            android:text="@string/activity_glass_error_label"
+            android:textSize="@dimen/font_20px" />
+    </FrameLayout>
+</FrameLayout>
