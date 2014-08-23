@@ -109,7 +109,6 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         mCardScrollView.setOnItemClickListener(this);
 
         mLocationHelper = new LocationHelper(this);
-
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "GoogleGlassParking");
     }
@@ -254,6 +253,11 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent keyEvent) {
         final boolean consumed = super.onKeyUp(keyCode, keyEvent);
+        if(mProgressContainer.getVisibility() == View.VISIBLE)
+        {
+            final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audio.playSoundEffect(Sounds.DISALLOWED);
+        }
         if (!consumed && keyCode == KeyEvent.KEYCODE_DPAD_CENTER && mIsError) {
             final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             audio.playSoundEffect(Sounds.TAP);
