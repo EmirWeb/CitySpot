@@ -28,6 +28,7 @@ import org.cityspot.tasks.FindParkingTask;
 import org.cityspot.utilities.Debug;
 import org.cityspot.utilities.LocationHelper;
 import org.cityspot.utilities.SliderView;
+import org.cityspot.utilities.TuggableView;
 
 import java.util.ArrayList;
 
@@ -203,17 +204,6 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             } else {
                 mProgressTextView.setText(R.string.activity_glass_progress_finding_parking);
             }
-        }
-    }
-
-        mProgressContainer.setVisibility(View.VISIBLE);
-        mProgressBar.startIndeterminate();
-        mResultsContainer.setVisibility(View.GONE);
-        final boolean hasLocation = mLocation != null;
-        if (!hasLocation) {
-            mProgressTextView.setText(R.string.activity_glass_progress_finding_location);
-        } else {
-            mProgressTextView.setText(R.string.activity_glass_progress_finding_parking);
         }
     }
 
