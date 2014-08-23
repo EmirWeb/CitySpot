@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -61,6 +62,11 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
     private WakeLock mWakeLock;
     private View mErrorContainer;
     private TextView mErrorMessage;
+    
+    private boolean mIsTapHintEnabled = false;
+    private TextView mHintTextView;
+    private final long mHintTimeout = 3000;
+
     private final Runnable mTimeout = new Runnable() {
 
         @Override
@@ -108,8 +114,42 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         mLocationHelper = new LocationHelper(this);
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "GoogleGlassParking");
+        
+        mHintTextView = (TextView) findViewById(R.id.activity_glass_results_hint);
+        // Attach the gesture detector and start timer to show hint on inactivity.
+		hintTimerHandler.postDelayed(hintTimerRunnable, mHintTimeout);
     }
 
+    /*
+     * Used to reset hint timer on gesture event
+     */
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+    	mHintTextView.setVisibility(View.INVISIBLE);
+		hintTimerHandler.removeCallbacks(hintTimerRunnable);
+		hintTimerHandler.postDelayed(hintTimerRunnable, mHintTimeout);
+        return false;
+    }
+    
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler hintTimerHandler = new Handler();
+    Runnable hintTimerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+        	showHint();
+            hintTimerHandler.postDelayed(this, mHintTimeout);
+        }
+    };
+    
+    private void showHint() 
+    {
+    	if(mIsTapHintEnabled)
+		{
+    		mHintTextView.setVisibility(View.VISIBLE);
+		}
+    }
+    
     @Override
     protected void onStart() {
         super.onStart();
@@ -170,6 +210,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
         if (foundParking) {
             mErrorContainer.setVisibility(View.GONE);
             setContentView(R.layout.activity_city_spot);
+            mHintTextView = (TextView) findViewById(R.id.activity_glass_results_hint);
             mResultsContainer = findViewById(R.id.activity_glass_results_container);
             mCardScrollView = (CardScrollView) findViewById(R.id.activity_glass_results);
             mCardScrollView.setOnItemClickListener(this);
@@ -188,6 +229,7 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             if (parkingList != null) {
                 final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audio.playSoundEffect(Sounds.SUCCESS);
+                mIsTapHintEnabled = true;
             } else {
                 Debug.log("No Result");
                 setErrorUI(getResources().getString(R.string.activity_glass_error_message));
@@ -236,6 +278,9 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audio.playSoundEffect(Sounds.TAP);
+        // Disable the hint timer and hints.
+        hintTimerHandler.removeCallbacks(hintTimerRunnable);
+        mIsTapHintEnabled = false;
         final Parking parking = (Parking) parent.getItemAtPosition(position);
         if (parking instanceof GreenParking) {
             final GreenParking greenParking = (GreenParking) parking;
