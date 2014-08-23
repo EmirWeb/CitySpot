@@ -66,16 +66,17 @@ public class CitySpotService extends Service {
 		}
 	}
 
-	private void publishCard(final Context context, final GreenParking greenParking) {
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.list_item_green_parking);
-		remoteViews.setTextViewText(R.id.list_item_green_parking_address, greenParking.mAddress);
-		final String distanceString = String.format(Parking.DISTANCE, greenParking.mDistance);
-		final String priceString = String.format(Parking.PRICE, greenParking.mRateHalfHour);
-		remoteViews.setTextViewText(R.id.list_item_green_parking_distance, distanceString);
-		remoteViews.setTextViewText(R.id.list_item_green_parking_price, priceString);
-
-		publishCard(context, remoteViews, Float.parseFloat(greenParking.mLat), Float.parseFloat(greenParking.mLong), greenParking.mAddress);
-	}
+    private void publishCard(final Context context, final GreenParking greenParking) {
+        final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.list_item_green_parking);
+        remoteViews.setTextViewText(R.id.list_item_green_parking_address, greenParking.mAddress);
+        final String distanceString = String.format(Parking.DISTANCE, greenParking.mDistance);
+        if(greenParking.mRateHalfHour != null) {
+            final String priceString = String.format(Parking.PRICE, greenParking.mRateHalfHour);
+            remoteViews.setTextViewText(R.id.list_item_green_parking_price, priceString);
+        }
+        remoteViews.setTextViewText(R.id.list_item_green_parking_distance, distanceString);
+        publishCard(context, remoteViews, Float.parseFloat(greenParking.mLat), Float.parseFloat(greenParking.mLong), greenParking.mAddress);
+    }
 
 	private void publishCard(final Context context, final LawnParking lawnParking) {
 		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.list_item_lawn_parking);
