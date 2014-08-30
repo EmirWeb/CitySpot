@@ -125,7 +125,9 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
      */
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-    	mHintTextView.setVisibility(View.INVISIBLE);
+    	if(mHintTextView != null){
+    			mHintTextView.setVisibility(View.INVISIBLE);
+    	}
 		hintTimerHandler.removeCallbacks(hintTimerRunnable);
 		hintTimerHandler.postDelayed(hintTimerRunnable, mHintTimeout);
         return false;
