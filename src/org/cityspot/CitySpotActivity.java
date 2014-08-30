@@ -200,7 +200,9 @@ public class CitySpotActivity extends Activity implements OnItemClickListener {
             mErrorContainer.setVisibility(View.VISIBLE);
             mProgressContainer.setVisibility(View.GONE);
             mProgressBar.stopIndeterminate();
-            mResultsContainer.setVisibility(View.GONE);
+            if(mResultsContainer!=null) {
+                mResultsContainer.setVisibility(View.GONE);
+            }
             return;
         }
         if (mParkingTaskResponse == null) {
