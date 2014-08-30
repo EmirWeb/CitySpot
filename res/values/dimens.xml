@@ -8,7 +8,7 @@
     <dimen name="glass_card_body_height">240px</dimen>
     <dimen name="glass_card_left_column_width">240px</dimen>
     <dimen name="glass_distance_bottom">40px</dimen>
-    <dimen name="glass_footer_left">270px</dimen>
+    <dimen name="glass_footer_left">290px</dimen>
 
     <dimen name="activity_city_spot_results_action_label_margin_bottom">5px</dimen>
 

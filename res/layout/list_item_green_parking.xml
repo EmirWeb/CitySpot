@@ -21,29 +21,33 @@
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/glass_card_two_column_margin"
+        android:layout_marginTop="@dimen/glass_card_margin"
+        android:layout_marginLeft="@dimen/glass_card_margin"
+        android:layout_marginRight="@dimen/glass_card_margin"
         android:layout_toRightOf="@id/list_item_green_parking_icon"
-        android:gravity="left|center_vertical"
+        android:gravity="left"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/list_item_green_parking_address"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:textSize="@dimen/font_30px"
+            android:maxLines="3"
+            android:gravity="top"
+            android:textSize="@dimen/font_40px"
             android:fontFamily="sans-serif-thin"
             />
 
         <TextView
             android:id="@+id/list_item_green_parking_price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/font_70px"
             android:textColor="@color/yellow"
+            android:gravity="bottom"
             android:fontFamily="sans-serif-thin"
-            android:textSize="@dimen/font_30px"/>
+            android:textSize="@dimen/font_40px"/>
 
 
     </LinearLayout>
